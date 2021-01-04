@@ -15,4 +15,6 @@ npm i apollo-server graphql
 $ npm i --save sequelize
 
 $ npm i sequelize-cli -g
+
+$ npm i --save mysql2
 ```
