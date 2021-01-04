@@ -1,0 +1,24 @@
+{
+  "name": "chat-platform",
+  "version": "1.0.0",
+  "description": "Basic chat platform with NodeJS, React & GraphQL",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StyvenSoft/Chat-platform.git"
+  },
+  "author": "Steveen Echeverri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/StyvenSoft/Chat-platform/issues"
+  },
+  "homepage": "https://github.com/StyvenSoft/Chat-platform#readme",
+  "dependencies": {
+    "apollo-server": "^2.19.1",
+    "graphql": "^15.4.0"
+  }
+}
