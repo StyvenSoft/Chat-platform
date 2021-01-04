@@ -19,7 +19,8 @@
   "homepage": "https://github.com/StyvenSoft/Chat-platform#readme",
   "dependencies": {
     "apollo-server": "^2.19.1",
-    "graphql": "^15.4.0"
+    "graphql": "^15.4.0",
+    "sequelize": "^6.3.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
