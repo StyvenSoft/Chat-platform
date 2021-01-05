@@ -26,12 +26,6 @@ module.exports = {
 
                 if(password !== confirmPassword) errors.confirmPassword = 'Password must match'
 
-                const userByUsername = await User.findOne({ where: { username } });
-                const userByEmail = await User.findOne({ where: { email } });
-
-                if(userByUsername) errors.username = 'Username is taken'
-                if(userByEmail) errors.email = 'Email is taken'
-
                 if(Object.keys(errors).length > 0){ throw errors }
 
                 password = await bcrypt.hash(password, 6); 
@@ -45,6 +39,14 @@ module.exports = {
                 return user;
             } catch (error) {
                 console.log(error);
+                if(error.name === 'SequelizeUniqueConstraintError') {
+                    error.errors.forEach(
+                        (e) => (errors[e.path] = `${e.path} is already taken`)
+                    )
+                } else if (error.name === 'SequelizeValidationError') {
+                    error.errors.forEach(
+                        (e) => (errors[e.path] = e.message))
+                }
                 throw new UserInputError('Bad input', { errors: error });
             }
         }
