@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const { UserInputError, AuthenticationError } = require('apollo-server');
 const { JWT_SECRET } = require('../config/env.json');
 const jwt = require('jsonwebtoken');
-const Op = require('sequelize');
+const { Op } = require('sequelize');
 
 module.exports = {
     Query: {
