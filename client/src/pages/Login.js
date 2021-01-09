@@ -1,67 +1,50 @@
 import React, { useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 
-const REGISTER_USER = gql`
-  mutation register( 
+const LOGIN_USER = gql`
+  query login( 
       $username: String! 
-      $email: String!
       $password: String! 
-      $confirmPassword: String!
     ) {
-    register(
+    login(
         username: $username 
-        email: $email 
         password: $password 
-        confirmPassword: $confirmPassword
     ) {
       username
-      email
-      createdAt      
+      createdAt
+      token 
     }
   }
 `;
 
-export default function Register(props) {
+export default function Login(props) {
     const [variables, setVariables] = useState({
-        email: '',
         username: '',
         password: '',
-        confirmPassword: '',
     });
 
     const [errors, setErrors] = useState({});
 
-    const [registerUser, { loading }] = useMutation(REGISTER_USER, {
-        update: (_, __) => props.history.push('/login'),
+    const [loginUser, { loading }] = useLazyQuery(LOGIN_USER, {
         onError: (err) => setErrors(err.graphQLErrors[0].extensions.errors),
+        onCompleted(data) {
+            localStorage.setItem('token', data.login.token)
+            props.history.push('/')
+        }  
     })
 
-    const submitRegisterForm = e => {
+    const submitLoginForm = e => {
         e.preventDefault();
-        registerUser({ variables });
+        loginUser({ variables });
     }
 
     return (
         <Row className="bg-white py-5 justify-content-center">
             <Col col-sm={8} md={6} lg={4}>
-                <h1 className="text-center">Register Chat</h1>
-                <Form onSubmit={submitRegisterForm}>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label className={errors.email && 'text-danger'}>
-                            {errors.email ?? 'Email address'}
-                        </Form.Label>
-                        <Form.Control
-                            type="email"
-                            placeholder="Enter email"
-                            className={errors.email && 'is-invalid'}
-                            value={variables.email}
-                            onChange={(e) => {
-                                setVariables({ ...variables, email: e.target.value })
-                            }}
-                        />
-                    </Form.Group>
+                <h1 className="text-center">Login Chat</h1>
+                <Form onSubmit={submitLoginForm}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label className={errors.username && 'text-danger'}>
                             {errors.username ?? 'Username'}
@@ -91,29 +74,16 @@ export default function Register(props) {
                             }}
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicPassword">
-                        <Form.Label className={errors.confirmPassword && 'text-danger'}>
-                            {errors.confirmPassword ?? 'Confirm password'}
-                        </Form.Label>
-                        <Form.Control
-                            type="password"
-                            placeholder="Confirm password"
-                            className={errors.confirmPassword && 'is-invalid'}
-                            value={variables.confirmPassword}
-                            onChange={(e) => {
-                                setVariables({ ...variables, confirmPassword: e.target.value })
-                            }}
-                        />
-                    </Form.Group>
 
                     <div className="text-center d-flex flex-column">
                         <Button className="mb-3" variant="success" type="submit" disabled={loading}>
-                            {loading ? 'Loading...' : 'Register'}
+                            {loading ? 'Loading...' : 'Login'}
                         </Button>
-                        <small>Already have an account? <Link to='/login'>Login</Link></small>
+                        <small>Don't have account? <Link to='/register'>Register</Link></small>
                     </div>
                 </Form>
             </Col>
         </Row>
     )
 }
+
