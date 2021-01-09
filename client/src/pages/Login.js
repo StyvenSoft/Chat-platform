@@ -23,16 +23,15 @@ export default function Login(props) {
     const [variables, setVariables] = useState({
         username: '',
         password: '',
-    });
-
-    const [errors, setErrors] = useState({});
+    })
+    const [errors, setErrors] = useState({})
 
     const [loginUser, { loading }] = useLazyQuery(LOGIN_USER, {
         onError: (err) => setErrors(err.graphQLErrors[0].extensions.errors),
         onCompleted(data) {
             localStorage.setItem('token', data.login.token)
-            props.history.push('/')
-        }  
+            window.location.href = '/'
+        },
     })
 
     const submitLoginForm = e => {

@@ -25,8 +25,8 @@ const REGISTER_USER = gql`
 
 export default function Register(props) {
     const [variables, setVariables] = useState({
-        email: '',
         username: '',
+        email: '',
         password: '',
         confirmPassword: '',
     });
@@ -34,8 +34,8 @@ export default function Register(props) {
     const [errors, setErrors] = useState({});
 
     const [registerUser, { loading }] = useMutation(REGISTER_USER, {
+        onError: (err) => setErrors(err?.graphQLErrors[0].extensions.errors),
         update: (_, __) => props.history.push('/login'),
-        onError: (err) => setErrors(err.graphQLErrors[0].extensions.errors),
     })
 
     const submitRegisterForm = e => {
