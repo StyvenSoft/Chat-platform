@@ -18,15 +18,9 @@ function App() {
       <Router>
         <Container className="pt-3">
           <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route path="/register">
-              <Register />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
+            <Route exact path="/" component={Home} />
+            <Route path="/register" component={Register} />
+            <Route path="/login" component={Login} />
           </Switch>
         </Container>
       </Router>
