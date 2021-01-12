@@ -18,3 +18,14 @@ $ npm i sequelize-cli -g
 
 $ npm i --save mysql2
 ```
+
+### Sequelize model
+
+```sh
+$ sequelize model:generate --name User --attributes username:string,email:string
+
+$ sequelize model:generate --name Message --attributes content:string,uuid:uuid,from:string,to:string
+
+$ sequelize db:migrate
+
+```
