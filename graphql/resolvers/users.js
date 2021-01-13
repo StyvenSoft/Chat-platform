@@ -10,9 +10,9 @@ module.exports = {
         getUsers: async (_, __, { user }) => {
             try {
                 if (!user) throw new AuthenticationError('Unauthenticated')
-                
+
                 const users = await User.findAll({
-                    where: { username: { [Op.ne]: user.username }},
+                    where: { username: { [Op.ne]: user.username } },
                 })
 
                 return users
@@ -46,10 +46,10 @@ module.exports = {
                     throw new UserInputError('Password is incorrect', { errors })
                 }
 
-                const token = jwt.sign({
-                    data: 'foobar'
-                }, JWT_SECRET, { expiresIn: 60 * 60 });
-                
+                const token = jwt.sign({ username }, JWT_SECRET, {
+                    expiresIn: 60 * 60,
+                })
+
                 return {
                     ...user.toJSON(),
                     createdAt: user.createdAt.toISOString(),
