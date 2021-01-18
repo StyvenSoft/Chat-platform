@@ -3,12 +3,12 @@ import { Row, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuthDispatch } from '../context/auth';
 
-export default function Home() {
+export default function Home(props) {
     const dispatch = useAuthDispatch();
 
     const logout = () => {
         dispatch({ type: 'LOGOUT'})
-        this.history.push('/login')
+        props.history.push('/login')
     }
 
     return (

@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode';
 const AuthStateContext = createContext();
 const AuthDispatchContext = createContext();
 
-let user;
+let user = null;
 const token = localStorage.getItem('token')
 if (token) {
     const decodedToken = jwtDecode(token);
@@ -15,7 +15,6 @@ if (token) {
     } else {
         user = decodedToken
     }
-    console.log(expiresAt);
 } else {
     console.log('No token fount');
 }

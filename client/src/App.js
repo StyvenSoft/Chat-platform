@@ -2,15 +2,15 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
+  Switch
 } from "react-router-dom";
 import ApolloProvider from './ApolloProvider';
 import './App.scss';
-import Home from './pages/Home';
-import Register from './pages/Register';
-import Login from './pages/Login';
 import { AuthProvider } from './context/auth';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import DynamicRoute from './util/DynamicRoute';
 
 function App() {
 
@@ -20,9 +20,9 @@ function App() {
         <Router>
           <Container className="pt-3">
             <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/register" component={Register} />
-              <Route path="/login" component={Login} />
+              <DynamicRoute exact path="/" component={Home} authenticated />
+              <DynamicRoute path="/register" component={Register} guest />
+              <DynamicRoute path="/login" component={Login} guest />
             </Switch>
           </Container>
         </Router>
