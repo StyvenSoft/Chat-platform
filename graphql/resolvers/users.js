@@ -9,7 +9,9 @@ module.exports = {
     Query: {
         getUsers: async (_, __, { user }) => {
             try {
-                if (!user) throw new AuthenticationError('Unauthenticated')
+                if (!user) { 
+                    throw new AuthenticationError('Unauthenticatedd')
+                }
 
                 const users = await User.findAll({
                     where: { username: { [Op.ne]: user.username } },
@@ -29,7 +31,8 @@ module.exports = {
                 if (password === '') errors.password = 'Password must not be empty'
 
                 if (Object.keys(errors).length > 0) {
-                    throw new UserInputError('Bad input', { errors })
+                   //  throw new UserInputError('Bad input', { errors })
+                   throw new UserInputError('User not found')
                 }
 
                 const user = await User.findOne({

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = require('../config/env.json');
+const { JWT_SECRET } = require('../config/env.json');
 
 module.exports = (context) => {
     if (context.req && context.req.headers.authorization) {
