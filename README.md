@@ -29,3 +29,18 @@ $ sequelize model:generate --name Message --attributes content:string,uuid:uuid,
 $ sequelize db:migrate
 
 ```
+
+### Test Data seeders
+
+```sh
+$ sequelize seed:generate --name create-users
+
+$ sequelize seed:generate --name create-messages
+
+$ sequelize db:migrate:undo:all
+
+$ sequelize db:migrate
+
+$ sequelize db:seed:all
+
+```
