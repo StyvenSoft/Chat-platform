@@ -2,6 +2,9 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
+    const createdAt = new Date()
+    const updatedAt = createdAt
+    
     return queryInterface.bulkInsert('messages', [
       {
         uuid: '7648485a-6657-48d7-87d6-6a98931d3598',
