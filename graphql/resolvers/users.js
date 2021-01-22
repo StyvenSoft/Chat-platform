@@ -9,12 +9,27 @@ module.exports = {
     Query: {
         getUsers: async (_, __, { user }) => {
             try {
-                if (!user) { 
+                if (!user) {
                     throw new AuthenticationError('Unauthenticatedd')
                 }
 
                 const users = await User.findAll({
+                    attributes: ['username', 'imageUrl', 'createdAt'],
                     where: { username: { [Op.ne]: user.username } },
+                })
+                const allUserMessages = await Message.findAll({
+                    where: {
+                        [Op.or]: [{ from: user.username }, { to: user.username }]
+                    },
+                    order: [['createdAt', 'DESC']]
+                })
+
+                users = users.map(otherUser => {
+                    const latestMessage = allUserMessages.find(
+                        m => m.from === otherUser.username || m.to === otherUser.username
+                    )
+                    otherUser.latestMessage = latestMessage
+                    return otherUser
                 })
 
                 return users
@@ -31,8 +46,8 @@ module.exports = {
                 if (password === '') errors.password = 'Password must not be empty'
 
                 if (Object.keys(errors).length > 0) {
-                   //  throw new UserInputError('Bad input', { errors })
-                   throw new UserInputError('User not found')
+                    //  throw new UserInputError('Bad input', { errors })
+                    throw new UserInputError('User not found')
                 }
 
                 const user = await User.findOne({
