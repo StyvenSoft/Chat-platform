@@ -1,4 +1,4 @@
-const { User } = require('../../models');
+const { Message, User } = require('../../models');
 const bcrypt = require('bcryptjs');
 const { UserInputError, AuthenticationError } = require('apollo-server');
 const { JWT_SECRET } = require('../../config/env.json');
@@ -13,7 +13,7 @@ module.exports = {
                     throw new AuthenticationError('Unauthenticatedd')
                 }
 
-                const users = await User.findAll({
+                let users = await User.findAll({
                     attributes: ['username', 'imageUrl', 'createdAt'],
                     where: { username: { [Op.ne]: user.username } },
                 })

@@ -1,6 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import React, { Fragment } from 'react';
-import { Row, Button, Col } from 'react-bootstrap';
+import { Row, Button, Col, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuthDispatch } from '../context/auth';
 
@@ -8,8 +8,15 @@ const GET_USERS = gql`
     query getUsers{
         getUsers{
             username
-            email
             createdAt
+            imageUrl 
+            latestMessage {
+                uuid
+                from
+                to
+                content
+                createdAt
+            }
         }
     }
 `
@@ -38,8 +45,21 @@ export default function Home(props) {
         usersMarkup = <p>Not users have joined yet</p>
     } else if (data.getUsers.length > 0) {
         usersMarkup = data.getUsers.map((user) => (
-            <div key={user.username} >
-                <p>{user.username}</p>
+            <div className="d-flex p-3" key={user.username} >
+                <Image 
+                    src={user.imageUrl} 
+                    roundedCircle
+                    className="mr-2"
+                    style={{ width: 50, height: 50, objectFit: "cover" }}  
+                />
+                <div>
+                    <strong className="text-success">{ user.username }</strong>
+                    <p className="font-weigth-light">
+                        {user.latestMessage
+                            ? user.latestMessage.content
+                            : 'You are now connected'}
+                    </p>
+                </div>
             </div>
         ))
     }
@@ -58,7 +78,7 @@ export default function Home(props) {
                 </Link>
             </Row>
             <Row className="bg-white">
-                <Col xs={4}>
+                <Col xs={4} className="p-0">
                     {usersMarkup}
                 </Col>
                 <Col xs={8}>
