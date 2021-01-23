@@ -1,5 +1,5 @@
-import { gql, useQuery } from '@apollo/client';
-import React, { Fragment } from 'react';
+import { gql, useQuery, useLazyQuery } from '@apollo/client';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Row, Button, Col, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuthDispatch } from '../context/auth';
@@ -21,8 +21,21 @@ const GET_USERS = gql`
     }
 `
 
+const GET_MESSAGES = gql`
+    query getMessages($from: String!) {
+        getMessages(from: $from) {
+            uuid
+            from
+            to
+            content
+            createdAt
+        }
+    }
+`
+
 export default function Home(props) {
     const dispatch = useAuthDispatch();
+    const [selectedUser, setSelectedUser] = useState(null);
 
     const logout = () => {
         dispatch({ type: 'LOGOUT' })
@@ -31,12 +44,14 @@ export default function Home(props) {
 
     const { loading, data, error } = useQuery(GET_USERS);
 
-    if (error) {
-        console.log(error)
-    }
-    if (data) {
-        console.log(data);
-    }
+    const [getMessages, { loading: messagesLoading, data: messagesData }] = useLazyQuery(GET_MESSAGES);
+    useEffect(() => {
+        if (selectedUser) {
+            getMessages({ variables: { from: selectedUser } })
+        }
+    }, [selectedUser])
+
+    if (messagesData) console.log(messagesData.getMessages)
 
     let usersMarkup;
     if (!data || loading) {
@@ -45,15 +60,19 @@ export default function Home(props) {
         usersMarkup = <p>Not users have joined yet</p>
     } else if (data.getUsers.length > 0) {
         usersMarkup = data.getUsers.map((user) => (
-            <div className="d-flex p-3" key={user.username} >
-                <Image 
-                    src={user.imageUrl} 
+            <div
+                className="d-flex p-3"
+                key={user.username}
+                onClick={() => setSelectedUser(user.username)}
+            >
+                <Image
+                    src={user.imageUrl}
                     roundedCircle
                     className="mr-2"
-                    style={{ width: 50, height: 50, objectFit: "cover" }}  
+                    style={{ width: 50, height: 50, objectFit: "cover" }}
                 />
                 <div>
-                    <strong className="text-success">{ user.username }</strong>
+                    <strong className="text-success">{user.username}</strong>
                     <p className="font-weigth-light">
                         {user.latestMessage
                             ? user.latestMessage.content
@@ -82,7 +101,13 @@ export default function Home(props) {
                     {usersMarkup}
                 </Col>
                 <Col xs={8}>
-                    Messages
+                    {messagesData && messagesData.getMessages.length > 0 ? (
+                        messagesData.getMessages.map((message) => (
+                            <p key={message.uuid}>{message.content}</p>
+                        ))
+                    ) : (
+                            <p>Not Messages</p>
+                        )}
                 </Col>
             </Row>
         </Fragment>
