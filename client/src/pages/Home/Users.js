@@ -35,7 +35,8 @@ export default function Users({ setSelectedUser }) {
     } else if (users.length > 0) {
         usersMarkup = users.map((user) => (
             <div
-                className="d-flex p-3"
+                role="button"
+                className="d-flex p-3 user-div"
                 key={user.username}
                 onClick={() => setSelectedUser(user.username)}
             >

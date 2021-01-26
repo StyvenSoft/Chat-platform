@@ -1,10 +1,17 @@
 $border-radius: 0;
 $paragraph-margin-bottom: 0;
-$gray-600: rgb(245, 245, 245);
+$gray-600: rgb(235, 235, 235);
 
 @import '~bootstrap/scss/bootstrap'; 
 
 
 body {
+    background: linear-gradient(to left, #2edbd5f3, #93edc7);
+}
+
+.user-div {
     background-color: $gray-600;
+}
+.user-div:hover {
+    background-color: rgb(250, 250, 250);
 }
