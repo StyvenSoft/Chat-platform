@@ -10,7 +10,7 @@ export default function Home(props) {
 
     const logout = () => {
         dispatch({ type: 'LOGOUT' })
-        props.history.push('/login')
+        window.location.href('/login');
     }
 
     return (
