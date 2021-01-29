@@ -26,7 +26,7 @@ export default function Message({ message }) {
             })}>
                 <div
                     className={classNames('py-2 px-3 rounded-pill', {
-                        'bg-primary': sent,
+                        'bg-message': sent,
                         'bg-secondary': received,
                     })}
                 >
