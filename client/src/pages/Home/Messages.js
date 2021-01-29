@@ -46,8 +46,8 @@ export default function Messages() {
         selectedChatMarkup = <p>Loading...</p>
     } else if (messages.length > 0) {
         selectedChatMarkup = messages.map((message, index) => (
-            <Fragment>
-                <Message key={message.uuid} message={message} />
+            <Fragment key={message.uuid}>
+                <Message message={message} />
                 {index === message.length -1 && (
                     <div className="invisible">
                         <hr className="m-0"/>
