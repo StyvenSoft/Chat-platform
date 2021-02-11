@@ -37,3 +37,13 @@ body {
 .bg-message {
     background: #2edbd5f3;
 }
+
+.message-input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.info-text {
+    color:rgba(0, 0, 0, 0.425);
+    text-align: center;
+    margin-bottom: 1rem;
+}

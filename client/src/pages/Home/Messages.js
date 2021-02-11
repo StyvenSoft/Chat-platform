@@ -35,11 +35,17 @@ export default function Messages() {
     const selectedUser = users?.find((u) => u.selected === true)
     const messages = selectedUser?.messages
 
-    const [getMessages, { 
-        loading: messagesLoading, data: messagesData 
+    const [getMessages, {
+        loading: messagesLoading, data: messagesData
     }] = useLazyQuery(GET_MESSAGES);
-    
+
     const [sendMessage] = useMutation(SEND_MESSAGE, {
+        onCompleted: data => dispatch({
+            type: 'ADD_MESSAGE', payload: {
+                username: selectedUser.username,
+                message: data.sendMessage,
+            }
+        }),
         onError: err => console.log(err)
     })
 
@@ -62,17 +68,20 @@ export default function Messages() {
 
     const submitMessage = e => {
         e.preventDefault()
-        if (content === '') return
+        if (content.trim() === '' || !selectedUser) return
+
+        setContent('');
 
         // Mutation the sending the message
+        sendMessage({ variables: { to: selectedUser.username, content } })
     }
 
     let selectedChatMarkup;
 
     if (!messages && !messagesLoading) {
-        selectedChatMarkup = <p>Selected a friend</p>
+        selectedChatMarkup = <p className="info-text">Selected a friend</p>
     } else if (messagesLoading) {
-        selectedChatMarkup = <p>Loading...</p>
+        selectedChatMarkup = <p className="info-text">Loading...</p>
     } else if (messages.length > 0) {
         selectedChatMarkup = messages.map((message, index) => (
             <Fragment key={message.uuid}>
@@ -85,25 +94,29 @@ export default function Messages() {
             </Fragment>
         ))
     } else if (messages.length === 0) {
-        selectedChatMarkup = <p>You are now connected! send ypur first message</p>
+        selectedChatMarkup = <p className="info-text">You are now connected! send ypur first message</p>
     }
 
     return (
-        <Col xs={10} md={8} className="message-box d-flex flex-column-reverse">
-            {selectedChatMarkup}
-            <Form onSubmit={submitMessage}>
-                <Form.Group>
-                    <Form.Control
-                        type="text"
-                        className="rounded-pill bg-secondary"
-                        placeholder="Text a message..."
-                        value={content}
-                        OnChange={e => setContent(e.target.value)}
-                    >
+        <Col xs={10} md={8}>
+            <div className="message-box d-flex flex-column-reverse">
+                {selectedChatMarkup}
+            </div>
+            <div>
+                <Form onSubmit={submitMessage}>
+                    <Form.Group>
+                        <Form.Control
+                            type="text"
+                            className="message-input rounded-pill p-4 bg-secondary border-0"
+                            placeholder="Text a message..."
+                            value={content}
+                            onChange={e => setContent(e.target.value)}
+                        >
+                        </Form.Control>
+                    </Form.Group>
+                </Form>
 
-                    </Form.Control>
-                </Form.Group>
-            </Form>
+            </div>
         </Col>
     )
 }
