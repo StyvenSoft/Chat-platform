@@ -31,7 +31,7 @@ module.exports = {
         }
     },
     Mutation: {
-        sendMessage: async (parent, { to, content }, { user }) => {
+        sendMessage: async (parent, { to, content }, { user, pubsub }) => {
             try {
                 if (!user) throw new AuthenticationError('Unauthenticated')
 
@@ -52,10 +52,20 @@ module.exports = {
                     content,
                 })
 
+                pubsub.publish('NEW_MESSAGE', { newMessage: message })
+
                 return message;
             } catch (error) {
                 console.log(error);
                 throw error
+            }
+        },
+    },
+    Subscription: {
+        newMessage: {
+            subcribe: (_, __, { pubsub }) => {
+                if (!user) throw new AuthenticationError('Unauthenticated')
+                return pubsub.asyncIterator(['NEW_MESSAGE'])
             }
         }
     }
