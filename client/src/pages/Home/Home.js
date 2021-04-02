@@ -1,12 +1,32 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Button, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuthDispatch } from '../../context/auth';
 import Messages from './Messages';
 import Users from './Users';
+import { gql, useSubscription } from '@apollo/client';
+
+const NEW_MESSAGE = gql`
+    subscription newMessage {
+        newMessage {
+            uuid
+            from
+            to
+            content
+            createdAt
+        }
+    }
+`;
 
 export default function Home({ history }) {
     const dispatch = useAuthDispatch();
+
+    const { data: messageData, error: messageError } = useSubscription(NEW_MESSAGE);
+
+    useEffect(() => {
+        if(messageError) console.log(messageError)
+        
+    })
 
     const logout = () => {
         dispatch({ type: 'LOGOUT' })

@@ -3,7 +3,8 @@ import {
     ApolloClient, 
     InMemoryCache, 
     ApolloProvider as Provider, 
-    createHttpLink
+    createHttpLink,
+    split
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { WebSocketLink } from '@apollo/client/link/ws';
