@@ -26,6 +26,8 @@ $ sequelize model:generate --name User --attributes username:string,email:string
 
 $ sequelize model:generate --name Message --attributes content:string,uuid:uuid,from:string,to:string
 
+$sequelize model:generate --name Reaction --attributes content:string,uuid:uuid
+
 $ sequelize db:migrate
 
 ```
