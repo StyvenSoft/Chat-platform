@@ -63,12 +63,14 @@ module.exports = {
     },
     Subscription: {
         newMessage: {
-            subcribe: withFilter(
-                (_, __, { pubsub }) => {
+            subscribe: withFilter(
+                (_, __, { pubsub, user }) => {
                     if (!user) throw new AuthenticationError('Unauthenticated')
                     return pubsub.asyncIterator(['NEW_MESSAGE'])
                 }, ({ newMessage }, _, { user }) => {
-                    if (newMessage.from === user.username || newMessage.to === user.username) {
+                    if (newMessage.from === user.username || 
+                        newMessage.to === user.username
+                    ) {
                         return true
                     }
 
