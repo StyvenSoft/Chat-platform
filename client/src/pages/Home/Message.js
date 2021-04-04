@@ -15,7 +15,7 @@ export default function Message({ message }) {
             placement={sent ? 'top' : 'bottom'}
             overlay={
                 <Tooltip >
-                    {moment(message.createdAt).format('MMM DD, YYYY @ h:mm a')}
+                    {moment(message.createdAt).format('MMMM DD, YYYY @ h:mm a')}
                 </Tooltip>
             }
             transition={false}

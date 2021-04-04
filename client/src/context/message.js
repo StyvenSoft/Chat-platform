@@ -15,7 +15,7 @@ const messageReducer = (state, action) => {
         case 'SET_USER_MESSAGES':
             usersCopy = [...state.users];
 
-            userIndex = usersCopy.findIndex(u => u.username === username)
+            userIndex = usersCopy.findIndex((u) => u.username === username)
             usersCopy[userIndex] = { ...usersCopy[userIndex], messages }
 
             return {

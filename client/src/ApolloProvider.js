@@ -21,7 +21,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : '',
     }
   }
 });
@@ -33,7 +33,7 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     connectionParams: {
-      Authorization: `Bearer: ${localStorage.getItem('token')}`,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     }
   }
 });
