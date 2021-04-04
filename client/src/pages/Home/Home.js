@@ -50,15 +50,9 @@ export default function Home({ history }) {
 
     return (
         <Fragment>
-            <Row className="bg-white justify-content-around mb-1">
+            <Row className="bg-white justify-content-end mb-1">
                 <Link to="/login">
-                    <Button variant="link">Login</Button>
-                </Link>
-                <Link to="/register">
-                    <Button variant="link">Register</Button>
-                </Link>
-                <Link to="/login">
-                    <Button variant="link" onClick={logout}>Logout</Button>
+                    <Button variant="info" onClick={logout}>Logout</Button>
                 </Link>
             </Row>
             <Row className="bg-white">
