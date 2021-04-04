@@ -33,8 +33,8 @@ export default function Login(props) {
         onError: (err) => setErrors(err.graphQLErrors[0].extensions.errors),
         onCompleted(data) {
             dispatch({ type: 'LOGIN', payload: data.login })
-            // window.location.href = '/'
-            props.history.push('/')
+            window.location.href = '/'
+            // props.history.push('/')
         },
     })
 
