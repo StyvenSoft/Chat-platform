@@ -8,8 +8,8 @@ module.exports = {
     },
     Reaction: {
         createdAt: (parent) => parent.createdAt.toISOString(),
-        Message: async (parent) => await Message.findByPk(parent.messageId),
-        User: async (parent) => await User.findByPk(parent.userId, {
+        message: async (parent) => await Message.findByPk(parent.messageId),
+        user: async (parent) => await User.findByPk(parent.userId, {
             attributes: ['username', 'imageUrl', 'createdAt']
         }),
     },
