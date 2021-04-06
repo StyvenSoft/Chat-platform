@@ -129,7 +129,7 @@ module.exports = {
                 (_, __, { pubsub, user }) => {
                     if (!user) throw new AuthenticationError('Unauthenticated')
                     return pubsub.asyncIterator(['NEW_REACTION'])
-                }, ({ newReaction }, _, { user }) => {
+                }, async ({ newReaction }, _, { user }) => {
 
                     const message = await newReaction.getMessage()
 
