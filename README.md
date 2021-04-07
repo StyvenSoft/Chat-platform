@@ -1,6 +1,12 @@
 # Chat-platform
 Basic chat platform with NodeJS, React &amp; GraphQL
 
+### Preview
+
+![Screen](./client/public/img/screen1.png)
+
+![Screen](./client/public/img/screen2.png)
+
 ### Requirements
 
 - In a new project, install the apollo-server and graphql dependencies using:
@@ -45,4 +51,19 @@ $ sequelize db:migrate
 
 $ sequelize db:seed:all
 
+```
+
+### Install
+
+```
+npm i && cd client/ && npm i
+```
+### run
+
+```
+npm run dev
+
+cd client/
+
+npm run start
 ```
